@@ -22,7 +22,6 @@ public class CustomerDAO {
 		em.close();
 	}
 	
-	
 	public void remove(Customer c) {
 		
 		EntityManager em = emf.createEntityManager();
@@ -30,5 +29,16 @@ public class CustomerDAO {
 		em.remove(em.merge(c));
 		em.getTransaction().commit();
 		em.close();
+	}
+	
+	public Customer merge(Customer c) {
+		
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		Customer updatedCustomer = em.merge(c);
+		em.getTransaction().commit();
+		em.close();
+		
+		return updatedCustomer;
 	}
 }

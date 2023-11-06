@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -21,15 +22,20 @@ public class Customer {
 	private int customerPhone;
 	private double cusotmerSalary;
 	
+	@OneToOne
+	private Loan loan;
+	
 	public Customer() {}
 	
-	public Customer(int cid, String cn, String ca, int cp, double cs) {
+	public Customer(int cid, String cn, String ca, int cp, double cs, Loan l) {
 		
 		this.customerId = cid;
 		this.customerName = cn;
 		this.customerAddr = ca;
 		this.customerPhone = cp;
 		this.cusotmerSalary = cs;
+		
+		this.loan = l;
 	}
 	
 	@XmlElement
@@ -75,5 +81,14 @@ public class Customer {
 
 	public void setCusotmerSalary(double cusotmerSalary) {
 		this.cusotmerSalary = cusotmerSalary;
+	}
+
+	@XmlElement
+	public Loan getLoan() {
+		return loan;
+	}
+
+	public void setLoan(Loan loan) {
+		this.loan = loan;
 	}
 }
