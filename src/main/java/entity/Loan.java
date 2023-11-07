@@ -8,9 +8,17 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+@NamedQueries({
+	@NamedQuery(name="Loan.findAll", query="select o from Loan o"),
+	@NamedQuery(name="Loan.findById", query="select o from Loan where o.loanId=:loanid"),
+	@NamedQuery(name="Loan.findDepositsById", query="select o.loanPayments from Loan where o.loanId=:loanid")
+	})
 
 @XmlRootElement(name="loan")
 @Entity
@@ -20,7 +28,7 @@ public class Loan {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
-	private int loanId;
+	private String loanId;
 	private double loanAmount;
 	private String loanDesc;
 	
@@ -29,7 +37,7 @@ public class Loan {
 	
 	public Loan() {}
 	
-	public Loan(int lid, double la, String ld, List<Deposit> lp) {
+	public Loan(String lid, double la, String ld, List<Deposit> lp) {
 		
 		this.loanId = lid;
 		this.loanAmount = la;
@@ -38,11 +46,11 @@ public class Loan {
 	}
 
 	@XmlElement
-	public int getLoanId() {
+	public String getLoanId() {
 		return loanId;
 	}
 
-	public void setLoanId(int loanId) {
+	public void setLoanId(String loanId) {
 		this.loanId = loanId;
 	}
 

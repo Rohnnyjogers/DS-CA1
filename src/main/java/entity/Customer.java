@@ -4,9 +4,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+@NamedQueries({
+	@NamedQuery(name="Customer.findAll", query="select o from Customer o"),
+	@NamedQuery(name="Customer.findById", query="select o from Customer where o.customerId=:customerid"),
+	@NamedQuery(name="Customer.findByName", query="select o from Customer o where o.customerName=:customername"),
+	@NamedQuery(name="Customer.findLoanById", query="select o.loan from Customer where o.customerId=:customerid"),
+	@NamedQuery(name="Customer.findLoanByName", query="select o.loan from Customer where o.customerName=:customername"),
+	@NamedQuery(name="Customer.findLoanAmountById", query="select o.loan.loanAmount from Customer where o.customerId=:customerid")
+})
 
 @XmlRootElement(name="customer")
 @Entity
@@ -16,7 +27,7 @@ public class Customer {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
-	private int customerId;
+	private String customerId;
 	private String customerName;
 	private String customerAddr;
 	private int customerPhone;
@@ -27,7 +38,7 @@ public class Customer {
 	
 	public Customer() {}
 	
-	public Customer(int cid, String cn, String ca, int cp, double cs, Loan l) {
+	public Customer(String cid, String cn, String ca, int cp, double cs, Loan l) {
 		
 		this.customerId = cid;
 		this.customerName = cn;
@@ -39,11 +50,11 @@ public class Customer {
 	}
 	
 	@XmlElement
-	public int getCustomerId() {
+	public String getCustomerId() {
 		return customerId;
 	}
 
-	public void setCustomerId(int customerId) {
+	public void setCustomerId(String customerId) {
 		this.customerId = customerId;
 	}
 	

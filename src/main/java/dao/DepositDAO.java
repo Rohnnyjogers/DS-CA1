@@ -1,5 +1,8 @@
 package dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -40,5 +43,40 @@ public class DepositDAO {
 		em.close();
 		
 		return updatedDeposit;
+	}
+	
+	public List<Deposit> getDeposits(){
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		ArrayList<Deposit> deposits = (ArrayList<Deposit>) em.createNamedQuery("Deposit.findAll")
+				.getResultList();
+		em.getTransaction().commit();
+		em.close();
+		
+		return deposits;
+	}
+	
+	public Deposit getDepositById(String s) {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		Deposit deposit = (Deposit) em.createNamedQuery("Deposit.findById")
+				.setParameter("depositid", s)
+				.getSingleResult();
+		em.getTransaction().commit();
+		em.close();
+		
+		return deposit;
+	}
+	
+	public Deposit getDepositByDate(String s) {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		Deposit deposit = (Deposit) em.createNamedQuery("Deposit.findByDate")
+				.setParameter("depositid", s)
+				.getSingleResult();
+		em.getTransaction().commit();
+		em.close();
+		
+		return deposit;
 	}
 }
